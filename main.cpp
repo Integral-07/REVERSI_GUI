@@ -1,5 +1,6 @@
 #define DEBUG true
 
+#include<list>
 #include <string>
 #include "DxLib.h"
 #include "player.h"
@@ -9,7 +10,6 @@
 int board[squaresSize][squaresSize] = { };
 
 Players player("player1", "player2");
-Selector slc(VisibleBoardPositionX, VisibleBoardPositionY, GetColor(200, 200, 200));
 
 
 void initBoard();
@@ -39,6 +39,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK); //ダブルバッファリング
 	SetBackgroundColor(100, 100, 100);
 
+	
+	FrameArray fa;
+
 	int resultArray[2] = { };
 	int mouseX, mouseY;
 
@@ -62,40 +65,32 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		printPlayer();
 		showBoard();
-		slc.DrawFrame();
 
-		if (DEBUG) {
-
-			slc.DebugMonitor();
-		}
 
 		GetMousePoint(&mouseX, &mouseY);
-		if (VisibleBoardPositionX <= mouseX && mouseX <= VisibleBoardEndX && VisibleBoardPositionY <= mouseY && mouseY <= VisibleBoardEndY) {
-			//処理範囲内
+		fa.DrawFrames(&mouseX, &mouseY);
 
-			slc.setPosition(mouseX, mouseY);
-		}
 
 		if (KeyDown(KEY_INPUT_UP)) {
 
-			slc.move2upper();
+			fa.move2upper();
 			WaitTimer(KeyDownSpan);
 
 		}
 		if (KeyDown(KEY_INPUT_DOWN)) {
 
-			slc.move2lower();
+			fa.move2lower();
 			WaitTimer(KeyDownSpan);
 
 		}
 		if (KeyDown(KEY_INPUT_LEFT)) {
 
-			slc.move2left();
+			fa.move2left();
 			WaitTimer(KeyDownSpan);
 		}
 		if (KeyDown(KEY_INPUT_RIGHT)) {
 
-			slc.move2right();
+			fa.move2right();
 			WaitTimer(KeyDownSpan);
 
 		}
@@ -105,15 +100,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 		if (KeyDown(KEY_INPUT_RETURN)) {
 
-			if (!isPlaceable(slc.getRow(), slc.getLine())) {
+			if (!isPlaceable(fa.getActiveRow(), fa.getActiveLine())) {
 
 				continue;
 			}
 
-			putStone(slc.getRow(), slc.getLine());
+			putStone(fa.getActiveRow(), fa.getActiveLine());
 
 			player.changePlayer();
-			slc.resetPosition();
+			fa.resetActivation();
 		}
 
 		KeyUpdate();

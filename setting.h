@@ -22,3 +22,6 @@
 #define VisibleBoardEndY (GameHeight - VisibleBoardPositionY)
 
 #define KeyDownSpan 80 //[ms]
+
+#define ActiveColor GetColor(255, 255, 255)
+#define DeactiveColor GetColor(0, 0, 0)
