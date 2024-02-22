@@ -44,12 +44,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	int resultArray[2] = { };
 	int mouseX, mouseY;
+	int previous_mouseX = 0, previous_mouseY = 0;
 
 	KeyInit();
 	initBoard();
 
 
-	while (isEnd()) {
+	while (!isEnd()) {
 
 		if (ProcessMessage() != 0) {
 			break;
@@ -68,8 +69,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		GetMousePoint(&mouseX, &mouseY);
-		fa.DrawFrames(&mouseX, &mouseY);
 
+		fa.DrawFrames(&mouseX, &mouseY, mouseX - previous_mouseX || mouseY - previous_mouseY);
+
+		previous_mouseX = mouseX;
+		previous_mouseY = mouseY;
 
 		if (KeyDown(KEY_INPUT_UP)) {
 
@@ -98,10 +102,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 		}
-		if (KeyDown(KEY_INPUT_RETURN)) {
+		if (KeyClick(KEY_INPUT_RETURN)) {
 
 			if (!isPlaceable(fa.getActiveRow(), fa.getActiveLine())) {
 
+				KeyUpdate();
 				continue;
 			}
 
@@ -155,7 +160,7 @@ bool isEnd() {
 
 			if (isPlaceable(i, j)) {
 
-				return true;
+				return false;
 			}
 		}
 	}
@@ -170,53 +175,39 @@ bool isEnd() {
 				//std::cout << "’u‚¯‚éêŠ‚ª‚È‚¢‚½‚ßAƒvƒŒ[ƒ„[‚ðŒð‘ã‚µ‚Ü‚·." << std::endl;
 				DrawString(0, 0, "’u‚¯‚éêŠ‚ª‚È‚¢‚½‚ßAƒvƒŒ[ƒ„[‚ðŒð‘ã‚µ‚Ü‚·.", GetColor(0, 0, 0));
 
-				return true;
+				return false;
 			}
 		}
 	}
 
-	return false;
+	return true;
 }
 
 void showBoard() {
 
-	DrawBox(VisibleBoardPositionX, VisibleBoardPositionY, VisibleBoardEndX, VisibleBoardEndY, GetColor(110, 224, 86), true); //—Î–Ê
-	DrawBox(VisibleBoardPositionX, VisibleBoardPositionY, VisibleBoardEndX, VisibleBoardEndY, GetColor(0, 0, 0), false); //‘å˜g
+	DrawBox(VisibleBoardPositionX-10, VisibleBoardPositionY-10, VisibleBoardEndX+10, VisibleBoardEndY+10, GetColor(0, 0, 0), true);     //‘å˜g
+	DrawBox(VisibleBoardPositionX, VisibleBoardPositionY, VisibleBoardEndX, VisibleBoardEndY, GetColor(110, 224, 86), true);            //—Î–Ê
 
 	for (int i = 0; i < squaresSize; i++) {
-
 		for (int j = 0; j < squaresSize; j++) {
-
 
 			switch (board[i][j]) {
 
 			case Black:
 				//std::cout << "Z";
-				DrawBox(BoardBasePositionX + j * DistanceOfStone, BoardBasePositionY + i * DistanceOfStone,
-					BoardBasePositionX + j * DistanceOfStone + DistanceOfStone, BoardBasePositionY + i * DistanceOfStone + DistanceOfStone, GetColor(0, 0, 0), false); //•˜g•`‰æ
-				DrawCircle(StoneBasePositionX + j * DistanceOfStone, StoneBasePositionY + i * DistanceOfStone, GetColor(0, 0, 0), true);
+				DrawCircle(StoneBasePositionX + j * DistanceOfStone, StoneBasePositionY + i * DistanceOfStone, Radius, GetColor(0, 0, 0), true);
 				break;
 
 			case White:
 				//std::cout << " œ";
-				DrawBox(BoardBasePositionX + j * DistanceOfStone, BoardBasePositionY + i * DistanceOfStone,
-					BoardBasePositionX + j * DistanceOfStone + DistanceOfStone, BoardBasePositionY + i * DistanceOfStone + DistanceOfStone, GetColor(0, 0, 0), false); //•˜g•`‰æ
-				DrawCircle(StoneBasePositionX + j * DistanceOfStone, StoneBasePositionY + i * DistanceOfStone, GetColor(255, 255, 255), true);
+				DrawCircle(StoneBasePositionX + j * DistanceOfStone, StoneBasePositionY + i * DistanceOfStone, Radius,GetColor(255, 255, 255), true);
 				break;
 
 			case None:
 				//std::cout << "[";
-				DrawBox(BoardBasePositionX + j * DistanceOfStone, BoardBasePositionY + i * DistanceOfStone,
-					BoardBasePositionX + j * DistanceOfStone + DistanceOfStone, BoardBasePositionY + i * DistanceOfStone + DistanceOfStone, GetColor(0, 0, 0), false); //•˜g•`‰æ
 				break;
 
 			default:
-				//std::cout << "‚Î";
-				if (DEBUG) {
-
-					DrawBox(BoardBasePositionX + j * DistanceOfStone, BoardBasePositionY + i * DistanceOfStone,
-						BoardBasePositionX + j * DistanceOfStone + DistanceOfStone, BoardBasePositionY + i * DistanceOfStone + DistanceOfStone, GetColor(100, 100, 100), true); //•˜g•`‰æ
-				}
 				break;
 			}
 		}
@@ -228,20 +219,16 @@ void showBoard() {
 
 void printPlayer() {
 
-	const char* text;
-
 	switch (player.getCurrentPlayerStone()) {
 
 	case Black:
 		//std::cout << player.getCurrentPlayerName() << "(•)‚Ì”Ô" << std::endl;
-		text = (player.getCurrentPlayerName() + "(•)‚Ì”Ô").c_str();
-		DrawString(0, 0, text, GetColor(0, 0, 0));
+		DrawFormatString(0, 0, GetColor(0, 0, 0), "%s(•)‚Ì”Ô", player.getCurrentPlayerName().c_str());
 		break;
 
 	case White:
 		//std::cout << player.getCurrentPlayerName() << "(”’)‚Ì”Ô" << std::endl;
-		text = (player.getCurrentPlayerName() + "(”’)‚Ì”Ô").c_str();
-		DrawString(0, 0, text, GetColor(0, 0, 0));
+		DrawFormatString(0, 0, GetColor(0, 0, 0), "%s(”’)‚Ì”Ô", player.getCurrentPlayerName().c_str());
 		break;
 	}
 

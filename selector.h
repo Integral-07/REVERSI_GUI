@@ -1,7 +1,7 @@
 #pragma once
 #include"key.h"
 #include"setting.h"
-#include< array >
+#include<array>
 
 class FrameArray {
 
@@ -108,33 +108,46 @@ public:
 
 	void move2upper() {
 
-		Farray[currentActiveRow][currentActiveLine].deactivate();
-		Farray[currentActiveRow++][currentActiveLine].activate();
+		if (currentActiveRow - 1 >= 0) {
+
+			Farray[currentActiveRow][currentActiveLine].deactivate();
+			Farray[--currentActiveRow][currentActiveLine].activate();
+		}
 	}
 	void move2lower() {
 
-		Farray[currentActiveRow][currentActiveLine].deactivate();
-		Farray[currentActiveRow--][currentActiveLine].activate();
+		if (currentActiveRow + 1 <= boardSize-1) {
+
+			Farray[currentActiveRow][currentActiveLine].deactivate();
+			Farray[++currentActiveRow][currentActiveLine].activate();
+		}
 	}
 	void move2left() {
 
-		Farray[currentActiveRow][currentActiveLine].deactivate();
-		Farray[currentActiveRow][currentActiveLine--].activate();
+		if (currentActiveLine - 1 >= 0) {
+
+			Farray[currentActiveRow][currentActiveLine].deactivate();
+			Farray[currentActiveRow][--currentActiveLine].activate();
+		}
 	}
 	void move2right() {
 
-		Farray[currentActiveRow][currentActiveLine].deactivate();
-		Farray[currentActiveRow][currentActiveLine++].activate();
+		if (currentActiveLine + 1 <= boardSize-1) {
+
+			Farray[currentActiveRow][currentActiveLine].deactivate();
+			Farray[currentActiveRow][++currentActiveLine].activate();
+		}
 	}
 
-	void DrawFrames(int* mouseX, int* mouseY) {
+	void DrawFrames(int* mouseX, int* mouseY, bool mousePriority) {
 
 		for (int i = 0; i < boardSize;i++) {
 			for (int j = 0; j < boardSize; j++) {
 
-					Farray[currentActiveRow][currentActiveLine].deactivate();
-				if (Farray[i][j].isHit(*mouseX, *mouseY)) {
+					
+				if (mousePriority && Farray[i][j].isHit(*mouseX, *mouseY)) {
 
+					Farray[currentActiveRow][currentActiveLine].deactivate();
 					Farray[i][j].activate();
 
 					currentActiveRow = i;

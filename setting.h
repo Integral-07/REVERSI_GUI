@@ -11,10 +11,11 @@
 #define BoardBasePositionX 450//420~1500                           //èàóùî’ÇÃç∂è„ÇÃxç¿ïW
 #define BoardBasePositionY BoardBasePositionX - 420       //èàóùî’ÇÃç∂è„ÇÃyç¿ïW
 
-#define StoneBasePositionX BoardBasePositionX
-#define StoneBasePositionY BoardBasePositionY
 #define DistanceOfStone ( (GameWidth - 2*BoardBasePositionX) / squaresSize)
 #define DistanceOfFrame DistanceOfStone
+#define StoneBasePositionX BoardBasePositionX + DistanceOfStone/2
+#define StoneBasePositionY BoardBasePositionY + DistanceOfStone/2
+#define Radius (DistanceOfStone / 2)
 
 #define VisibleBoardPositionX (BoardBasePositionX + DistanceOfStone) //å©Ç©ÇØÇÃî’ÇÃç∂è„xç¿ïW
 #define VisibleBoardPositionY (BoardBasePositionY + DistanceOfStone)
