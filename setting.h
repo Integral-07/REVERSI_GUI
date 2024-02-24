@@ -11,11 +11,13 @@
 #define BoardBasePositionX 450//420~1500                           //èàóùî’ÇÃç∂è„ÇÃxç¿ïW
 #define BoardBasePositionY BoardBasePositionX - 420       //èàóùî’ÇÃç∂è„ÇÃyç¿ïW
 
+#define initBasePosition squaresSize / 2
 #define DistanceOfStone ( (GameWidth - 2*BoardBasePositionX) / squaresSize)
 #define DistanceOfFrame DistanceOfStone
 #define StoneBasePositionX BoardBasePositionX + DistanceOfStone/2
 #define StoneBasePositionY BoardBasePositionY + DistanceOfStone/2
 #define Radius (DistanceOfStone / 2)
+#define StoneThick 8
 
 #define VisibleBoardPositionX (BoardBasePositionX + DistanceOfStone) //å©Ç©ÇØÇÃî’ÇÃç∂è„xç¿ïW
 #define VisibleBoardPositionY (BoardBasePositionY + DistanceOfStone)
@@ -24,5 +26,10 @@
 
 #define KeyDownSpan 80 //[ms]
 
+#define FrameBasePositionX VisibleBoardPositionX
+#define FrameBasePositionY VisibleBoardPositionY
+
 #define ActiveColor GetColor(255, 255, 255)
 #define DeactiveColor GetColor(0, 0, 0)
+#define BannedColor GetColor(255, 0,  0)
+

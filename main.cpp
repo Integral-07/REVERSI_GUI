@@ -5,22 +5,25 @@
 #include "DxLib.h"
 #include "player.h"
 #include "selector.h"
+#include "stone.h"
 #include "setting.h"
 
 int board[squaresSize][squaresSize] = { };
+int bufHandle[16];
 
 Players player("player1", "player2");
-
+FrameArray fa;
 
 void initBoard();
 bool isEnd();
-void showBoard();
+void showBoard(int except_x = -1, int except_y = -1);
 void printPlayer();
 bool isPlaceable(int, int);
 int checkDir(int, int, int, int);
 void putStone(int, int);
 void totalingStone(int*);
 void printResult(int*);
+
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 
@@ -40,7 +43,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetBackgroundColor(100, 100, 100);
 
 	
-	FrameArray fa;
 
 	int resultArray[2] = { };
 	int mouseX, mouseY;
@@ -48,7 +50,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	KeyInit();
 	initBoard();
-
+	//initStone();
+	SetFonts();
 
 	while (!isEnd()) {
 
@@ -66,7 +69,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		printPlayer();
 		showBoard();
-
 
 		GetMousePoint(&mouseX, &mouseY);
 
@@ -98,21 +100,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			WaitTimer(KeyDownSpan);
 
 		}
-		if (KeyDown(MOUSE_INPUT_LEFT)) {
 
-
-		}
-		if (KeyClick(KEY_INPUT_RETURN)) {
+		if (KeyClick(KEY_INPUT_RETURN) || KeyDown(MOUSE_INPUT_LEFT)) {
 
 			if (!isPlaceable(fa.getActiveRow(), fa.getActiveLine())) {
 
+				fa.cannotPlaced();
 				KeyUpdate();
 				continue;
 			}
 
 			putStone(fa.getActiveRow(), fa.getActiveLine());
 
+			showBoard();
+			fa.DrawFrames();
+			ScreenFlip();
+
 			player.changePlayer();
+			player.changePlayerScene();
+
 			fa.resetActivation();
 		}
 
@@ -131,9 +137,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	return 0;
 }
 
-void initBoard() {
 
-	int initBasePosition = squaresSize / 2;
+void initBoard() {
 
 	board[initBasePosition][initBasePosition] = White;
 	board[initBasePosition - 1][initBasePosition - 1] = White;
@@ -175,6 +180,7 @@ bool isEnd() {
 				//std::cout << "置ける場所がないため、プレーヤーを交代します." << std::endl;
 				DrawString(0, 0, "置ける場所がないため、プレーヤーを交代します.", GetColor(0, 0, 0));
 
+				player.changePlayerScene();
 				return false;
 			}
 		}
@@ -183,43 +189,19 @@ bool isEnd() {
 	return true;
 }
 
-void showBoard() {
+void showBoard(int except_x , int except_y) {
 
 	DrawBox(VisibleBoardPositionX-10, VisibleBoardPositionY-10, VisibleBoardEndX+10, VisibleBoardEndY+10, GetColor(0, 0, 0), true);     //大枠
 	DrawBox(VisibleBoardPositionX, VisibleBoardPositionY, VisibleBoardEndX, VisibleBoardEndY, GetColor(110, 224, 86), true);            //緑面
 
-	for (int i = 0; i < squaresSize; i++) {
-		for (int j = 0; j < squaresSize; j++) {
-
-			switch (board[i][j]) {
-
-			case Black:
-				//std::cout << "〇";
-				DrawCircle(StoneBasePositionX + j * DistanceOfStone, StoneBasePositionY + i * DistanceOfStone, Radius, GetColor(0, 0, 0), true);
-				break;
-
-			case White:
-				//std::cout << " ●";
-				DrawCircle(StoneBasePositionX + j * DistanceOfStone, StoneBasePositionY + i * DistanceOfStone, Radius,GetColor(255, 255, 255), true);
-				break;
-
-			case None:
-				//std::cout << "ー";
-				break;
-
-			default:
-				break;
-			}
-		}
-		//std::cout << std::endl;
-	}
+	DrawStones(except_x, except_y);
 
 	return;
 }
 
 void printPlayer() {
 
-	switch (player.getCurrentPlayerStone()) {
+	switch (player.getCurrentPlayerStoneColor()) {
 
 	case Black:
 		//std::cout << player.getCurrentPlayerName() << "(黒)の番" << std::endl;
@@ -263,7 +245,7 @@ int checkDir(int _row, int _line, int dir_row, int dir_line) {
 		num++;
 	}
 
-	if (board[_row + dir_row * num][_line + dir_line * num] == player.getCurrentPlayerStone()) {
+	if (board[_row + dir_row * num][_line + dir_line * num] == player.getCurrentPlayerStoneColor()) {
 		//番兵でなければ自分の石であり、挟めるので、相手の石の数を返す
 
 		return num - 1;
@@ -276,7 +258,7 @@ int checkDir(int _row, int _line, int dir_row, int dir_line) {
 void putStone(int _row, int _line) {
 
 	//配置箇所の石の置き換え
-	board[_row][_line] = player.getCurrentPlayerStone();
+	board[_row][_line] = player.getCurrentPlayerStoneColor();
 
 	for (int i = -1; i < 2; i++) {
 		for (int j = -1; j < 2; j++) {
@@ -286,7 +268,12 @@ void putStone(int _row, int _line) {
 			for (int k = 1; k < numChange + 1; k++) {
 				//挟める箇所の石の置き換え
 
-				board[_row + i * k][_line + j * k] = player.getCurrentPlayerStone();
+				showBoard(_row + i * k, _line + j * k);
+				fa.DrawFrames();
+				turnOver(_row + i * k, _line + j * k);
+				ScreenFlip();
+
+				board[_row + i * k][_line + j * k] = player.getCurrentPlayerStoneColor();
 			}
 		}
 	}

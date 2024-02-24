@@ -1,14 +1,11 @@
 #pragma once
 #include<string>
+#include"setting.h"
+#include "stone.h"
+#include"font.h"
 
+extern int Fonts[10];
 
-enum Stone {
-
-	None = 0,
-	Black = -1,
-	White = 1,
-	Sentinel = 2,
-};
 
 class Players {
 
@@ -17,7 +14,7 @@ class Players {
 	private:
 
 		std::string name = "";
-		Stone stn = Black;
+		StoneColor stn = Black;
 
 	public:
 
@@ -25,7 +22,7 @@ class Players {
 
 		}
 
-		Player(std::string _name, Stone _stn) :name(_name), stn(_stn) {
+		Player(std::string _name, StoneColor _stn) :name(_name), stn(_stn) {
 
 		}
 
@@ -41,7 +38,7 @@ class Players {
 
 		std::string getName() { return name; }
 
-		Stone getStone() { return stn; }
+		StoneColor getStoneColor() { return stn; }
 	};
 private:
 
@@ -74,9 +71,22 @@ public:
 		return;
 	}
 
-	Stone getConfStn() {
+	void changePlayerScene() {
 
-		if (currentPlayer.getStone() == Black) {
+		int DrawWidth = GetDrawFormatStringWidth("%sのターン", currentPlayer.getName().c_str(), Fonts[0]);
+
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+		DrawBox(0, GameHeight/3, GameWidth, GameHeight*2/3, GetColor(0, 0, 0), true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
+		DrawFormatStringToHandle((GameWidth - DrawWidth) / 2 - 170, GameHeight / 2 - 50, GetColor(255, 255, 255), Fonts[0], "%sのターン", currentPlayer.getName().c_str());
+		ScreenFlip();
+		WaitTimer(1000);
+	}
+
+	StoneColor getConfStn() {
+
+		if (currentPlayer.getStoneColor() == Black) {
 
 			return White;
 		}
@@ -89,8 +99,8 @@ public:
 		return currentPlayer.getName();
 	}
 
-	Stone getCurrentPlayerStone() {
+	StoneColor getCurrentPlayerStoneColor() {
 
-		return currentPlayer.getStone();
+		return currentPlayer.getStoneColor();
 	}
 };

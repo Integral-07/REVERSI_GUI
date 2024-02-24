@@ -19,15 +19,7 @@ private:
 		bool activation = false;
 		unsigned int color;
 
-		void move(double diff_x, double diff_y) {
 
-			leftUpper_x += diff_x;
-			leftUpper_y += diff_y;
-			rightLower_x += diff_x;
-			rightLower_y += diff_y;
-
-			return;
-		}
 
 	public:
 		Frame() {}
@@ -85,7 +77,7 @@ public:
 		for (int i = 0; i < boardSize; i++) {
 			for (int j = 0; j < boardSize; j++) {
 
-				Farray[i][j] = Frame(VisibleBoardPositionX + j * DistanceOfFrame, VisibleBoardPositionY + i * DistanceOfFrame, DeactiveColor);
+				Farray[i][j] = Frame(FrameBasePositionX + j * DistanceOfFrame, FrameBasePositionY + i * DistanceOfFrame, DeactiveColor);
 			}
 		}
 	}
@@ -102,8 +94,6 @@ public:
 
 			}
 		}
-
-		Farray[0][0].activate();
 	}
 
 	void move2upper() {
@@ -138,6 +128,16 @@ public:
 			Farray[currentActiveRow][++currentActiveLine].activate();
 		}
 	}
+	void DrawFrames() {
+
+		for (int i = 0; i < boardSize;i++) {
+			for (int j = 0; j < boardSize; j++) {
+
+				Farray[i][j].DrawFrame();
+			}
+		}
+		return;
+	}
 
 	void DrawFrames(int* mouseX, int* mouseY, bool mousePriority) {
 
@@ -157,15 +157,23 @@ public:
 				Farray[i][j].DrawFrame();
 			}
 		}
+
+		return;
 	}
 
-	int getActiveRow() {
+	void cannotPlaced() {
 
-		return currentActiveRow;
+		Farray[currentActiveRow][currentActiveLine].changeColor(BannedColor);
 	}
 
-	int getActiveLine() {
+	int getActiveRow() const{
 
-		return currentActiveLine;
+		return currentActiveRow + 1;
 	}
+
+	int getActiveLine() const{
+
+		return currentActiveLine + 1;
+	}
+
 };
