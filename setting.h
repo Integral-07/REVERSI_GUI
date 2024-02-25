@@ -16,7 +16,7 @@
 #define DistanceOfFrame DistanceOfStone
 #define StoneBasePositionX BoardBasePositionX + DistanceOfStone/2
 #define StoneBasePositionY BoardBasePositionY + DistanceOfStone/2
-#define Radius (DistanceOfStone / 2)
+#define Radius (DistanceOfStone / 2 - 7)
 #define StoneThick 8
 
 #define VisibleBoardPositionX (BoardBasePositionX + DistanceOfStone) //å©Ç©ÇØÇÃî’ÇÃç∂è„xç¿ïW

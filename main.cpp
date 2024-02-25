@@ -16,7 +16,7 @@ FrameArray fa;
 
 void initBoard();
 bool isEnd();
-void showBoard(int except_x = -1, int except_y = -1);
+void showBoard(int except_row = -1, int except_line = -1);
 void printPlayer();
 bool isPlaceable(int, int);
 int checkDir(int, int, int, int);
@@ -52,6 +52,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	initBoard();
 	//initStone();
 	SetFonts();
+
+	{
+		showBoard();
+		fa.DrawFrames();
+	
+		player.changePlayerScene();
+	}
 
 	while (!isEnd()) {
 
@@ -101,7 +108,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		}
 
-		if (KeyClick(KEY_INPUT_RETURN) || KeyDown(MOUSE_INPUT_LEFT)) {
+		if (KeyClick(KEY_INPUT_RETURN) || (GetMouseInput() & MOUSE_INPUT_LEFT)) {
 
 			if (!isPlaceable(fa.getActiveRow(), fa.getActiveLine())) {
 
@@ -131,6 +138,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	totalingStone(resultArray);
 	printResult(resultArray);
+
+	WaitKey();
 
 	DxLib_End();
 
@@ -318,7 +327,7 @@ void printResult(int* result) {
 	//std::cout << std::endl;
 
 	//std::cout << "結果発表！！\n" << "先手(黒): " << result[0] << "枚\n" << "後手(白):" << result[1] << "枚\n" << std::endl;
-	DrawString(0, 0, "結果発表!!", GetColor(0, 0, 0));
+	DrawString(100, 100, "結果発表!!", GetColor(0, 0, 0));
 	const char* text;
 
 	if (result[0] < result[1]) {
@@ -337,7 +346,9 @@ void printResult(int* result) {
 		text = "引き分け";
 	}
 
-	DrawString(0, 0, text, GetColor(0, 0, 0));
+	DrawString(100, 200, text, GetColor(0, 0, 0));
+
+	ScreenFlip();
 
 	return;
 }

@@ -80,6 +80,6 @@ void turnOver(int row, int line) {
 	}
 
 	ScreenFlip();
-	WaitTimer(1000);
+	WaitTimer(700);
 	return;
 }
