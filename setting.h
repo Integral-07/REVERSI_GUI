@@ -29,6 +29,9 @@
 #define FrameBasePositionX VisibleBoardPositionX
 #define FrameBasePositionY VisibleBoardPositionY
 
+#define ResultBasePositionX 50
+#define ResultBasePositionY 50
+
 #define ActiveColor GetColor(255, 255, 255)
 #define DeactiveColor GetColor(0, 0, 0)
 #define BannedColor GetColor(255, 0,  0)

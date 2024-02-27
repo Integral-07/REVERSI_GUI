@@ -1,6 +1,5 @@
 #define DEBUG true
 
-#include<list>
 #include <string>
 #include "DxLib.h"
 #include "player.h"
@@ -10,6 +9,7 @@
 
 int board[squaresSize][squaresSize] = { };
 int bufHandle[16];
+bool InterruptFlag = false;
 
 Players player("player1", "player2");
 FrameArray fa;
@@ -42,8 +42,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK); //ダブルバッファリング
 	SetBackgroundColor(100, 100, 100);
 
-	
-
 	int resultArray[2] = { };
 	int mouseX, mouseY;
 	int previous_mouseX = 0, previous_mouseY = 0;
@@ -60,7 +58,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		player.changePlayerScene();
 	}
 
-	while (!isEnd()) {
+	while (true) {
 
 		if (ProcessMessage() != 0) {
 			break;
@@ -70,6 +68,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		if (KeyDown(KEY_INPUT_ESCAPE)) {
+
+			int id = MessageBox(NULL, TEXT("本当にゲームを中断しますか？"),
+				TEXT(""), MB_OKCANCEL | MB_ICONQUESTION);
+
+			switch (id)
+			{
+			case IDCANCEL:
+				MessageBox(NULL, TEXT("キャンセルされました\nゲームに戻ります"),
+					TEXT(GameTitle), MB_ICONINFORMATION);
+				KeyUpdate();
+				continue;
+			case IDOK:
+				MessageBox(NULL, TEXT("ゲームを中断しました"),
+					TEXT(GameTitle), MB_ICONINFORMATION);
+				InterruptFlag = true;
+				break;
+			}
 
 			break;
 		}
@@ -84,6 +99,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		previous_mouseX = mouseX;
 		previous_mouseY = mouseY;
 
+		if (KeyDown(KEY_INPUT_P)) {
+			//自分のターンをパスする
+
+			goto PASS;
+		}
 		if (KeyDown(KEY_INPUT_UP)) {
 
 			fa.move2upper();
@@ -119,10 +139,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			putStone(fa.getActiveRow(), fa.getActiveLine());
 
+		PASS:
 			showBoard();
 			fa.DrawFrames();
 			ScreenFlip();
 
+			if (isEnd()) {
+
+				break;
+			}
 			player.changePlayer();
 			player.changePlayerScene();
 
@@ -135,6 +160,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	showBoard();
+	fa.DrawFrames();
 
 	totalingStone(resultArray);
 	printResult(resultArray);
@@ -186,7 +212,6 @@ bool isEnd() {
 
 			if (isPlaceable(i, j)) {
 
-				//std::cout << "置ける場所がないため、プレーヤーを交代します." << std::endl;
 				DrawString(0, 0, "置ける場所がないため、プレーヤーを交代します.", GetColor(0, 0, 0));
 
 				player.changePlayerScene();
@@ -213,12 +238,10 @@ void printPlayer() {
 	switch (player.getCurrentPlayerStoneColor()) {
 
 	case Black:
-		//std::cout << player.getCurrentPlayerName() << "(黒)の番" << std::endl;
 		DrawFormatString(0, 0, GetColor(0, 0, 0), "%s(黒)の番", player.getCurrentPlayerName().c_str());
 		break;
 
 	case White:
-		//std::cout << player.getCurrentPlayerName() << "(白)の番" << std::endl;
 		DrawFormatString(0, 0, GetColor(0, 0, 0), "%s(白)の番", player.getCurrentPlayerName().c_str());
 		break;
 	}
@@ -318,24 +341,47 @@ void  totalingStone(int* result) {
 
 void printResult(int* result) {
 
-	/*
-	for (int i = 0; i < boardSize; i++) {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 200);
+	DrawBox(ResultBasePositionX, ResultBasePositionY, GameWidth - ResultBasePositionX, GameHeight - ResultBasePositionY, GetColor(122, 122 ,122), true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
-		std::cout << "--";
-	}
-	*/
-	//std::cout << std::endl;
-
-	//std::cout << "結果発表！！\n" << "先手(黒): " << result[0] << "枚\n" << "後手(白):" << result[1] << "枚\n" << std::endl;
 	DrawString(100, 100, "結果発表!!", GetColor(0, 0, 0));
+
+	int imageHandle[10];
+	LoadDivGraph("./assets/number.png", 10, 10, 1, 150, 250, imageHandle);
+	int maxResult = max(result[0], result[1]);
+
+	
+	for (int i = 0; i <= maxResult; i++) {
+
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+		if (i <= result[0]) {
+
+			DrawCircle(GameWidth / 4, GameHeight / 2, Radius * 6, GetColor(0,0,0), true);
+			DrawGraph(GameWidth  / 4 - Radius * 6 / 2, GameHeight / 2 - Radius * 6, imageHandle[i], true);
+		}
+		if (i <= result[1]) {
+
+			DrawCircle(GameWidth * 3 / 4, GameHeight / 2, Radius * 6, GetColor(255, 255, 255), true);
+			SetDrawBlendMode(DX_BLENDMODE_INVSRC, 255);
+			DrawGraph(GameWidth * 3 / 4 - Radius * 6 / 2, GameHeight / 2 - Radius * 6, imageHandle[i], true);
+		}
+
+		//n桁の時どうする？
+
+		ScreenFlip();
+		WaitTimer(400);
+	}
+
+	
 	const char* text;
 
-	if (result[0] < result[1]) {
+	if (result[0] < result[1] && !InterruptFlag) {
 
 		//std::cout << "先手(黒)の勝ち" << std::endl;
 		text = "先手(黒)の勝ち";
 	}
-	else if (result[0] > result[1]) {
+	else if (result[0] > result[1] && !InterruptFlag) {
 
 		//std::cout << "後手(白)の勝ち" << std::endl;
 		text = "後手(白)の勝ち";
@@ -346,6 +392,7 @@ void printResult(int* result) {
 		text = "引き分け";
 	}
 
+	
 	DrawString(100, 200, text, GetColor(0, 0, 0));
 
 	ScreenFlip();
