@@ -140,17 +140,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CONTAINER.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="key.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="selector.cpp" />
+    <ClCompile Include="PLAY.cpp" />
+    <ClCompile Include="RESULT.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="TITLE.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="font.h" />
+    <ClInclude Include="CONTAINER.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="key.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="selector.h" />
-    <ClInclude Include="setting.h" />
-    <ClInclude Include="stone.h" />
+    <ClInclude Include="PLAY.h" />
+    <ClInclude Include="RESULT.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="TITLE.h" />
+    <ClInclude Include="VECTOR2.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Downloads\reversi_stone_image.jpeg" />

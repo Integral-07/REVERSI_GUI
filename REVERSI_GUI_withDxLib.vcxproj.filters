@@ -1,49 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="manager">
+      <UniqueIdentifier>{cf99e1da-d4d2-4d80-92b8-910d38700fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{cc2a507a-375a-4ee8-928c-5aebdd6f55f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\base">
+      <UniqueIdentifier>{f3887e47-3c2e-40df-9cb3-086890a57d90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="key.cpp" />
+    <ClCompile Include="Game.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene\base</Filter>
+    </ClCompile>
+    <ClCompile Include="PLAY.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="RESULT.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="TITLE.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>manager</Filter>
     </ClCompile>
-    <ClCompile Include="selector.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>manager</Filter>
     </ClCompile>
-    <ClCompile Include="key.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
+    <ClCompile Include="CONTAINER.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="selector.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="key.h" />
+    <ClInclude Include="Game.h">
+      <Filter>manager</Filter>
     </ClInclude>
-    <ClInclude Include="key.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene\base</Filter>
     </ClInclude>
-    <ClInclude Include="setting.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="PLAY.h">
+      <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="RESULT.h">
+      <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="font.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="TITLE.h">
+      <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="stone.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="GameObject.h">
+      <Filter>manager</Filter>
     </ClInclude>
+    <ClInclude Include="CONTAINER.h" />
+    <ClInclude Include="VECTOR2.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\Downloads\reversi_stone_image.jpeg">
