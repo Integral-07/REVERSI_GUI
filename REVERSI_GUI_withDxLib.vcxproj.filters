@@ -16,12 +16,6 @@
     <Filter Include="Key">
       <UniqueIdentifier>{5efe054a-880c-4472-9f9d-af75118462e6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ACTOR">
-      <UniqueIdentifier>{3165af9c-ed2d-44c5-858a-3e884a43b8b4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ACTOR\base">
-      <UniqueIdentifier>{eff49602-9ab0-48da-825f-1e30cbb14cd8}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -51,10 +45,6 @@
     <ClCompile Include="key.cpp">
       <Filter>Key</Filter>
     </ClCompile>
-    <ClCompile Include="ACTOR.cpp">
-      <Filter>ACTOR\base</Filter>
-    </ClCompile>
-    <ClCompile Include="STONE.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -82,9 +72,5 @@
     <ClInclude Include="key.h">
       <Filter>Key</Filter>
     </ClInclude>
-    <ClInclude Include="ACTOR.h">
-      <Filter>ACTOR\base</Filter>
-    </ClInclude>
-    <ClInclude Include="STONE.h" />
   </ItemGroup>
 </Project>

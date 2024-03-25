@@ -1,7 +1,6 @@
 #pragma once
 #include "Dxlib.h"
 #include "VECTOR2.h"
-#include "STONE.h"
 
 #define BoardSize 10
 
@@ -37,5 +36,5 @@ public:
 
 public:
 
-	STONE* Stones[BoardSize][BoardSize];
+	//STONE* Stones[BoardSize][BoardSize];
 };

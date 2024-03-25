@@ -140,7 +140,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ACTOR.cpp" />
     <ClCompile Include="CONTAINER.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GAME_OBJECT.cpp" />
@@ -149,11 +148,9 @@
     <ClCompile Include="PLAY.cpp" />
     <ClCompile Include="RESULT.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="STONE.cpp" />
     <ClCompile Include="TITLE.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ACTOR.h" />
     <ClInclude Include="CONTAINER.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GAME_OBJECT.h" />
@@ -161,7 +158,6 @@
     <ClInclude Include="PLAY.h" />
     <ClInclude Include="RESULT.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="STONE.h" />
     <ClInclude Include="TITLE.h" />
     <ClInclude Include="VECTOR2.h" />
   </ItemGroup>

@@ -1,6 +1,5 @@
 #include "PLAY.h"
 #include "CONTAINER.h"
-#include "STONE.h"
 
 PLAY::PLAY(class GAME* game) :Scene(game)
 {
@@ -19,13 +18,6 @@ void PLAY::draw()
 void PLAY::create()
 {
 	Play = game()->container()->play();
-	
-	for (int i = 0;i < BoardSize; i++) {
-		for (int j = 0; j < BoardSize; j++) {
-
-			game()->Stones[i][j] = new STONE(game());
-		}
-	}
 }
 
 void PLAY::nextScene()
