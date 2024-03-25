@@ -1,10 +1,12 @@
 #pragma once
-#include "GameObject.h"
+#include "GAME_OBJECT.h"
+#include "Game.h"
+
 class Scene :
-    public GameObject
+    public GAME_OBJECT
 {
 public:
-    Scene(class Game* game);
+    Scene(class GAME* game);
     virtual ~Scene();
     virtual void create();
     virtual void init();

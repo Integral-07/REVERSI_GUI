@@ -4,10 +4,22 @@ class RESULT :
     public Scene
 {
 public:
-    RESULT(class Game* game);
+    struct DATA {
+
+        unsigned int textColor;
+        float fontSize;
+        VECTOR2 pos;
+        char text[16]; //4‚Ì”{”‚ª‚æ‚«
+    };
+private:
+    DATA Result;
+
+public:
+    RESULT(class GAME* game);
     ~RESULT() override;
 
     void draw() override;
+    void create() override;
     void nextScene() override;
 };
 

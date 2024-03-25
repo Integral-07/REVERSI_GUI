@@ -1,12 +1,16 @@
 #pragma once
 #include "Dxlib.h"
 #include "VECTOR2.h"
+#include "STONE.h"
 
-class Game {
+#define BoardSize 10
+
+class GAME {
 
 //container
 private:
 	class CONTAINER* Container;
+
 public:
 	class CONTAINER* container() { return Container; }
 
@@ -23,10 +27,15 @@ private:
 	SCENE_ID CurSceneId;
 
 public:
-	Game();
-	~Game();
+	GAME();
+	~GAME();
 
 	void run();
 
 	void changeScene(SCENE_ID sceneId);
+
+
+public:
+
+	STONE* Stones[BoardSize][BoardSize];
 };

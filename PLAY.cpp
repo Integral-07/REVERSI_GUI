@@ -1,6 +1,8 @@
 #include "PLAY.h"
+#include "CONTAINER.h"
+#include "STONE.h"
 
-PLAY::PLAY(class Game* game) :Scene(game)
+PLAY::PLAY(class GAME* game) :Scene(game)
 {
 }
 
@@ -10,11 +12,23 @@ PLAY::~PLAY()
 
 void PLAY::draw()
 {
-	SetFontSize(200);
-	DrawString(0, 0, "Play", GetColor(255, 255, 255));
+	SetFontSize(Play.fontSize);
+	DrawString(Play.pos.x, Play.pos.y, Play.text, Play.textColor);
+}
+
+void PLAY::create()
+{
+	Play = game()->container()->play();
+	
+	for (int i = 0;i < BoardSize; i++) {
+		for (int j = 0; j < BoardSize; j++) {
+
+			game()->Stones[i][j] = new STONE(game());
+		}
+	}
 }
 
 void PLAY::nextScene()
 {
-	game()->changeScene(Game::RESULT_ID);
+	game()->changeScene(GAME::RESULT_ID);
 }

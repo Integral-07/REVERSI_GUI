@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetDrawScreen(DX_SCREEN_BACK); //ダブルバッファリング
 	SetBackgroundColor(100, 100, 100);
 
-	Game game;
+	GAME game;
 	game.run();
 
 	DxLib_End();

@@ -1,6 +1,7 @@
 #include "RESULT.h"
+#include "CONTAINER.h"
 
-RESULT::RESULT(class Game* game) :Scene(game)
+RESULT::RESULT(class GAME* game) :Scene(game)
 {
 }
 
@@ -10,11 +11,16 @@ RESULT::~RESULT()
 
 void RESULT::draw()
 {
-	SetFontSize(200);
-	DrawString(0, 0, "Result", GetColor(255, 255, 255));
+	SetFontSize(Result.fontSize);
+	DrawString(Result.pos.x, Result.pos.y, Result.text, Result.textColor);
+}
+
+void RESULT::create()
+{
+	Result = game()->container()->result();
 }
 
 void RESULT::nextScene()
 {
-	game()->changeScene(Game::TITLE_ID);
+	game()->changeScene(GAME::TITLE_ID);
 }

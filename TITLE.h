@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+
 class TITLE :
     public Scene
 {
@@ -15,7 +16,7 @@ private:
     DATA Title;
 
 public:
-    TITLE(class Game* game);
+    TITLE(class GAME* game);
     ~TITLE() override;
 
     void create() override;

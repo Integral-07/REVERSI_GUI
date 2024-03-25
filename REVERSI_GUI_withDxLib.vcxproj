@@ -140,29 +140,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ACTOR.cpp" />
     <ClCompile Include="CONTAINER.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GAME_OBJECT.cpp" />
     <ClCompile Include="key.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PLAY.cpp" />
     <ClCompile Include="RESULT.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="STONE.cpp" />
     <ClCompile Include="TITLE.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ACTOR.h" />
     <ClInclude Include="CONTAINER.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GAME_OBJECT.h" />
     <ClInclude Include="key.h" />
     <ClInclude Include="PLAY.h" />
     <ClInclude Include="RESULT.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="STONE.h" />
     <ClInclude Include="TITLE.h" />
     <ClInclude Include="VECTOR2.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\Downloads\reversi_stone_image.jpeg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

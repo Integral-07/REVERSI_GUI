@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="manager">
       <UniqueIdentifier>{cf99e1da-d4d2-4d80-92b8-910d38700fcc}</UniqueIdentifier>
     </Filter>
@@ -14,9 +10,20 @@
     <Filter Include="Scene\base">
       <UniqueIdentifier>{f3887e47-3c2e-40df-9cb3-086890a57d90}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CONTAINER">
+      <UniqueIdentifier>{d8966690-e6a8-4858-b812-237b5817481b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Key">
+      <UniqueIdentifier>{5efe054a-880c-4472-9f9d-af75118462e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ACTOR">
+      <UniqueIdentifier>{3165af9c-ed2d-44c5-858a-3e884a43b8b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ACTOR\base">
+      <UniqueIdentifier>{eff49602-9ab0-48da-825f-1e30cbb14cd8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="key.cpp" />
     <ClCompile Include="Game.cpp">
       <Filter>manager</Filter>
     </ClCompile>
@@ -35,13 +42,21 @@
     <ClCompile Include="main.cpp">
       <Filter>manager</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp">
+    <ClCompile Include="GAME_OBJECT.cpp">
       <Filter>manager</Filter>
     </ClCompile>
-    <ClCompile Include="CONTAINER.cpp" />
+    <ClCompile Include="CONTAINER.cpp">
+      <Filter>CONTAINER</Filter>
+    </ClCompile>
+    <ClCompile Include="key.cpp">
+      <Filter>Key</Filter>
+    </ClCompile>
+    <ClCompile Include="ACTOR.cpp">
+      <Filter>ACTOR\base</Filter>
+    </ClCompile>
+    <ClCompile Include="STONE.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="key.h" />
     <ClInclude Include="Game.h">
       <Filter>manager</Filter>
     </ClInclude>
@@ -57,15 +72,19 @@
     <ClInclude Include="TITLE.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
+    <ClInclude Include="GAME_OBJECT.h">
       <Filter>manager</Filter>
     </ClInclude>
-    <ClInclude Include="CONTAINER.h" />
     <ClInclude Include="VECTOR2.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\Downloads\reversi_stone_image.jpeg">
-      <Filter>リソース ファイル</Filter>
-    </Image>
+    <ClInclude Include="CONTAINER.h">
+      <Filter>CONTAINER</Filter>
+    </ClInclude>
+    <ClInclude Include="key.h">
+      <Filter>Key</Filter>
+    </ClInclude>
+    <ClInclude Include="ACTOR.h">
+      <Filter>ACTOR\base</Filter>
+    </ClInclude>
+    <ClInclude Include="STONE.h" />
   </ItemGroup>
 </Project>

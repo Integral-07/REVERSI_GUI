@@ -1,7 +1,7 @@
 #include "TITLE.h"
 #include "CONTAINER.h"
 
-TITLE::TITLE(class Game* game):Scene(game)
+TITLE::TITLE(class GAME* game):Scene(game)
 {
 }
 
@@ -22,5 +22,5 @@ void TITLE::draw()
 
 void TITLE::nextScene()
 {
-	game()->changeScene(Game::PLAY_ID);
+	game()->changeScene(GAME::PLAY_ID);
 }

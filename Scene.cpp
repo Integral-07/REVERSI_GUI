@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene(class Game* game):GameObject(game)
+Scene::Scene(class GAME* game):GAME_OBJECT(game)
 {
 }
 

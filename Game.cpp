@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "GAME.h"
 #include "TITLE.h"
 #include "PLAY.h"
 #include "RESULT.h"
@@ -6,7 +6,7 @@
 #include "CONTAINER.h"
 
 
-Game::Game()
+GAME::GAME()
 {
 	Container = new CONTAINER;
 	Scenes[TITLE_ID] = new TITLE(this);
@@ -15,7 +15,7 @@ Game::Game()
 	CurSceneId = TITLE_ID;
 }
 
-Game::~Game()
+GAME::~GAME()
 {
 	for (int i = 0; i < NUM_SCENES; i++) {
 
@@ -23,10 +23,13 @@ Game::~Game()
 	}
 }
 
-void Game::run()
+void GAME::run()
 {
 	Container->load();
 	Scenes[TITLE_ID]->create();
+	Scenes[PLAY_ID]->create();
+	Scenes[RESULT_ID]->create();
+
 
 	while (ProcessMessage() == 0 && ClearDrawScreen() == 0) {
 
@@ -37,7 +40,7 @@ void Game::run()
 	}
 }
 
-void Game::changeScene(SCENE_ID sceneId)
+void GAME::changeScene(SCENE_ID sceneId)
 {
 	if (KeyClick(KEY_INPUT_A)) {
 
